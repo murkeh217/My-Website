@@ -1,0 +1,12 @@
+#myCanvasContainer {
+	background: transparent;
+}
+
+body {
+	background: transparent;
+	margin-top: -1rem;
+}
+
+h1.header {
+	color: #08fdd8;
+}

@@ -1,0 +1,44 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  background: transparent;
+  color: white;
+}
+
+/* Container for columns */
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Individual column */
+.column {
+  background: transparent;
+  border-radius: 10px;
+  padding: 20px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+/* Images */
+.column img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto 15px;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+}

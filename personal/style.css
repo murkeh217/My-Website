@@ -1,0 +1,295 @@
+/* ========================
+RESET
+======================== */
+html, body {
+margin: 0;
+height: 100%;
+font-family: sans-serif;
+}
+
+/* ========================
+PAGE LAYOUT
+======================== */
+.page {
+display: flex;
+flex-direction: column;
+height: 100%;
+margin: 0;
+padding: 0;
+}
+
+/* ========================
+HEADER
+======================== */
+.page header {
+border: #006308 solid 2px;
+background: #014913;
+color: #fff;
+text-align: center;
+padding: 10px;
+flex-shrink: 0;
+}
+
+.page header .title {
+font-size: 2.2em;
+font-weight: bold;
+font-family: serif;
+}
+
+.page header .tagline {
+font-style: italic;
+}
+
+/* ========================
+BODY LAYOUT - TREE LEFT + CONTENT RIGHT
+======================== */
+.page .body {
+flex: 1 1 auto;
+min-height: 0;
+height: 100%;
+display: grid;
+grid-template-columns: 240px 1fr;
+overflow: hidden;
+}
+
+/* ========================
+TREE PANEL (LEFT) - FIXED TO STRETCH EVEN WITH NO CONTENT
+======================== */
+.page .body nav {
+background: #111;
+border-right: 2px solid #333;
+padding: 8px 6px;
+box-sizing: border-box;
+
+/* CRITICAL: Make nav a flex container so children can stretch */
+display: flex;
+flex-direction: column;
+
+/* Ensure it fills the grid cell */
+  /* fill the available height of the .body grid cell */
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  align-self: stretch;
+  /* ensure internal flex children can shrink/grow */
+  min-height: 0;
+width: 100%;
+
+/* Allow scrolling if content overflows */
+overflow-y: auto;
+}
+
+/* Tree navigation - make it flexible */
+.treeview-navigation {
+list-style: none;
+margin: 0;
+padding: 0;
+width: 100%;
+
+/* This makes the tree expand to fill available space */
+flex: 1 1 auto;
+min-height: 0;
+
+/* Add a minimum height to ensure visibility */
+min-height: 50px;
+}
+
+/* Ensure list items also fill width */
+.treeview-navigation li {
+list-style: none;
+width: 100%;
+}
+
+/* ========================
+INDENT LEVELS
+======================== */
+.treeview-navigation li li > a[role="treeitem"] {
+padding-left: 18px;
+}
+
+.treeview-navigation li li li > a[role="treeitem"] {
+padding-left: 30px;
+}
+
+/* ========================
+TREE LINKS
+======================== */
+.treeview-navigation a[role="treeitem"] {
+display: block;
+padding: 6px 10px;
+text-decoration: none;
+color: #ffffff;
+white-space: nowrap;
+width: 100%;
+box-sizing: border-box;
+}
+
+.treeview-navigation a:hover {
+background: #6cb16c;
+color: #fff;
+}
+
+.treeview-navigation a[aria-current] {
+background: #355f35;
+font-weight: bold;
+}
+
+/* ========================
+EXPAND ICON ROTATION
+======================== */
+.treeview-navigation a > span svg {
+transition: transform 0.2s ease;
+}
+
+.treeview-navigation a[aria-expanded="false"] > span svg {
+transform: rotate(-90deg);
+}
+
+/* ========================
+SUBTREE SHOW/HIDE
+======================== */
+.treeview-navigation a[aria-expanded="false"] + [role="group"] {
+display: none;
+}
+
+.treeview-navigation a[aria-expanded="true"] + [role="group"] {
+display: block;
+}
+
+/* ========================
+SPECIAL TREE ITEM STYLES
+======================== */
+/* LI that has a subtree */
+.treeview-navigation li > a[aria-owns] {
+font-weight: bold;
+}
+
+.treeview-navigation li > a[aria-owns][aria-expanded="true"] {
+background: #355f35;
+}
+
+/* HOME special highlight */
+.treeview-navigation a[aria-current="page"] {
+background: linear-gradient(90deg, #2f6f2f, #4caf50);
+color: #fff;
+font-weight: bold;
+}
+
+/* ========================
+CONTENT AREA (RIGHT)
+======================== */
+.page .main {
+  background: rgb(21, 21, 21);
+
+  /* allow natural height */
+  height: 100%;
+  min-height: 0;
+
+  /* flex so it grows with content */
+  display: flex;
+  flex-direction: column;
+
+  /* allow page scroll */
+  overflow: auto;
+}
+
+/* Ensure main area grows to fill the body grid cell so the nav
+   (sidebar) can stretch to the bottom even when it has little content. */
+.page .main {
+  flex: 1 1 auto;
+}
+
+/* iframe grows with content */
+.page .main iframe {
+  width: 100%;
+  border: none;
+  display: block;
+
+  /* critical */
+  /* Allow iframe to grow inside flex container. */
+  height: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+/* ========================
+FOOTER
+======================== */
+.page footer {
+border: #006308 solid 2px;
+background: #006308;
+color: #fff;
+font-family: serif;
+font-style: italic;
+padding: 8px 12px;
+flex-shrink: 0;
+}
+
+/* ========================
+MOBILE
+======================== */
+@media (max-width: 768px) {
+.page .body {
+grid-template-columns: 1fr;
+grid-template-rows: auto 1fr;
+}
+
+.page .body nav {
+border-right: none;
+border-bottom: 2px solid #ddd;
+max-height: 230px;
+height: auto;
+width: 100%;
+display: block; /* Reset flex on mobile */
+}
+
+.page .main {
+height: auto;
+min-height: 65vh;
+}
+
+.treeview-navigation {
+flex: none; /* Reset flex on mobile */
+}
+}
+
+/* =========================
+TREE ICON SYSTEM
+========================= */
+
+[role="treeitem"] {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+  padding: 2px 4px;
+}
+
+/* icon container */
+[role="treeitem"]::before {
+  width: 14px;
+  display: inline-block;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* ▶ collapsed */
+[role="treeitem"][aria-expanded="false"]::before {
+  content: "▶";
+}
+
+/* ▼ expanded */
+[role="treeitem"][aria-expanded="true"]::before {
+  content: "▼";
+}
+
+/* 📄 leaf icon */
+[role="treeitem"].leaf::before {
+  content: "•";   /* change to any icon you want */
+}
+
+/* remove arrow spacing from leaf */
+[role="treeitem"].leaf {
+  padding-left: 2px;
+}

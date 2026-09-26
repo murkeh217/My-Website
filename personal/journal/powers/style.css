@@ -1,0 +1,197 @@
+/* ===== Global Styles ===== */
+body {
+  background: transparent;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  transform: scale(0.9);
+  transform-origin: center;
+}
+
+/* ===== Heading ===== */
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #10b981;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ===== Deck Container ===== */
+.deck {
+  position: relative;
+  width: 100%;
+  height: 650px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* ===== Card Styles ===== */
+.card {
+  position: relative;
+  bottom: 0;
+  width: 340px;
+  background: #111;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+  cursor: pointer;
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    z-index 0.3s ease,
+    opacity 0.3s ease;
+
+  transform: translateX(calc(var(--i) * 10px));
+  z-index: calc(100 - var(--i));
+
+  height: 540px; /* slightly shorter for compact layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px; /* tight spacing between elements */
+}
+
+/* Hovered / Active Card */
+.card:hover,
+.card.active {
+  transform: translateY(-40px) scale(1.05) translateX(calc(var(--i) * 10px));
+  z-index: var(--z-expanded, 200);
+  box-shadow: 0 0 60px rgba(16, 185, 129, 0.6);
+  opacity: 1;
+}
+
+/* Dim inactive cards slightly */
+.card:not(.active):not(:hover) {
+  opacity: 0.8;
+  transform: translateX(calc(var(--i) * 10px)) scale(0.98);
+}
+
+/* ===== Card Image ===== */
+.card img {
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 4px;
+  transition: transform 0.4s ease;
+  width: 100%;
+  height: 220px;
+}
+
+.card:hover img,
+.card.active img {
+  transform: scale(1.05);
+}
+
+/* ===== Title Text ===== */
+.card h2 {
+  font-size: 1.3rem;
+  margin: 2px 0;
+  text-align: center;body, h2 {
+  margin: 0;
+  min-height: 100%;
+  display: grid;
+  place-content: center;
+  background: transparent;
+  color: lightgreen;
+}
+  color: #10b981;
+  text-shadow:
+    0 0 10px rgba(16, 185, 129, 0.6),
+    0 0 20px rgba(16, 185, 129, 0.4),
+    0 0 40px rgba(16, 185, 129, 0.3);
+  letter-spacing: 1px;
+  transition: text-shadow 0.3s ease;
+}
+
+.card:hover h2,
+.card.active h2 {
+  text-shadow:
+    0 0 20px rgba(16, 185, 129, 0.8),
+    0 0 40px rgba(16, 185, 129, 0.6),
+    0 0 60px rgba(16, 185, 129, 0.5);
+}
+
+/* ===== Tag Styling ===== */
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  background: #10b981;
+  color: #111;
+  margin: 2px auto;
+  text-align: center;
+}
+
+/* ===== Divider ===== */
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 2px 0;
+}
+
+/* ===== Info Text ===== */
+.info {
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  color: #fff;
+  margin-top: 4px;
+}
+
+/* ===== Category Label ===== */
+.category {
+  font-size: 0.75rem;
+  color: #10b981;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .deck {
+    height: 600px;
+  }
+  .card {
+    width: 280px;
+    transform: translateX(calc(var(--i) * 120px));
+  }
+}
+
+@media (max-width: 768px) {
+  .deck {
+    height: 520px;
+  }
+  .card {
+    width: 220px;
+    transform: translateX(calc(var(--i) * 100px));
+  }
+  .card img {
+    height: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .deck {
+    height: 480px;
+  }
+  .card {
+    width: 180px;
+    transform: translateX(calc(var(--i) * 80px));
+  }
+  .card img {
+    height: 200px;
+  }
+}
+
+.deck; .card:nth-child(1) { --i: -2; }
+.deck .card:nth-child(2) { --i: -1; }
+.deck .card:nth-child(3) { --i: 0; }
+.deck .card:nth-child(4) { --i: 1; }
+.deck .card:nth-child(5) { --i: 2; }

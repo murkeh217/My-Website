@@ -1,0 +1,243 @@
+@charset "UTF-8";
+
+/* =============================
+REGISTER ANIMATED VARIABLES
+============================= */
+
+@property --p {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: true;
+}
+
+@property --v {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: true;
+}
+
+/* =============================
+RESET
+============================= */
+
+*{
+  margin:0;
+  box-sizing:border-box;
+}
+
+/* allow normal scrolling */
+
+html,body{
+  display:block;
+  min-height:100%;
+  height:auto;
+  overflow-y:auto;
+  font-family:poppins,sans-serif;
+  background:transparent;
+  color:#f1f5f9;
+}
+
+/* =============================
+OPTIONAL PAGE SCALE
+============================= */
+
+.wrapper{
+  transform:scale(1.2);
+  transform-origin:top center;
+}
+
+/* =============================
+STACK SECTION LAYOUT
+============================= */
+
+section{
+
+  --p:var(--k);
+  --abs-p:abs(var(--k) - var(--p));
+  --end:clamp(0,var(--abs-p) - 1,1);
+
+  --dir:calc((1 - 2*var(--end))*sign(var(--k) - var(--p)));
+  --fwd:calc(.5*(1 + var(--dir)));
+
+  --v:var(--k);
+  --abs-v:abs(var(--v) - var(--p));
+  --prg:calc(var(--abs-v)/(1 - var(--end) + var(--end)*(var(--n) - 1)));
+
+  display:grid;
+  gap:.5em 4em;
+
+  grid-template:
+  repeat(2,max-content)
+  1fr
+  max-content
+  / max-content 1fr;
+
+  width:min(1100px,92%);
+  margin:3rem auto;
+
+  padding-bottom:4rem;
+
+  counter-reset:
+  k calc(1 + var(--k))
+  n var(--n);
+
+  transition:
+  --p 0s .8s,
+  --v .8s;
+}
+
+/* =============================
+COUNTER
+============================= */
+
+section::before,
+section em{
+  color:rgb(from currentColor r g b / .6);
+}
+
+section::before{
+  grid-area:1/2;
+  width:3ch;
+  text-align:right;
+  content:counter(k) "/" counter(n);
+}
+
+/* =============================
+STACK ITEMS
+============================= */
+
+article{
+
+  --abs-top:abs(var(--k) - var(--i));
+  --not-top:min(1,var(--abs-top));
+  --top:calc(1 - var(--not-top));
+
+  --val-mov:((1 - var(--fwd))*var(--p) + var(--fwd)*var(--k) - var(--i));
+  --abs-mov:abs(var(--val-mov));
+  --not-mov:min(1,var(--abs-mov));
+  --mov:calc(1 - var(--not-mov));
+
+  grid-area:1/1/-1/-1;
+
+  display:grid;
+  grid-template:subgrid/subgrid;
+
+  z-index:mod(calc(var(--n) - 1 + var(--i) - var(--k)),var(--n));
+
+  transition:
+  z-index .8s cubic-bezier(1,-0.9,0,1.9);
+}
+
+/* =============================
+TEXT
+============================= */
+
+h2,
+em{
+  translate:0 calc(var(--not-top)*1lh);
+  opacity:var(--top);
+  transition:.4s calc(var(--top)*.5*.8s);
+}
+
+h2{grid-area:2/2;}
+em{grid-area:3/2;}
+
+/* =============================
+IMAGES
+============================= */
+
+img{
+
+  --sin:sin(var(--prg)*.5turn);
+
+  grid-area:1/1/-1;
+
+  height:13em;
+  aspect-ratio:1;
+  object-fit:cover;
+
+  border:solid 2px darkgreen;
+  border-radius:.75em;
+
+  translate:calc(-150%*var(--mov)*sqrt(var(--sin)));
+  rotate:calc((1 - var(--sin))*var(--a));
+}
+
+/* =============================
+BUTTON ROW
+============================= */
+
+.controls{
+  grid-area:4/2;
+
+  display:flex;
+  align-items:center;
+  gap:1rem;
+
+  flex-wrap:nowrap;
+
+  z-index: var(--z-expanded, 999);      /* important */
+  position:relative;
+}
+
+/* =============================
+BUTTON STYLE
+============================= */
+
+button{
+
+  --sgn:-1;
+  --c:darkgreen;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:none;
+
+  width:2.6rem;
+  height:2.6rem;
+
+  flex:0 0 auto;
+
+  border-radius:50%;
+
+  background:rgb(from var(--c) r g b / .2);
+  color:lightgreen;
+
+  font:900 1.4rem/1 sans-serif;
+
+  cursor:pointer;
+
+  transition:.3s ease-out;
+}
+
+button::before{
+
+  content:"";
+
+  display:block;
+
+  border:solid 2px;
+  border-width:2px 2px 0 0;
+
+  width:40%;
+  aspect-ratio:1;
+
+  transform:
+  translateX(calc(var(--sgn) * -15%))
+  rotate(45deg)
+  scale(var(--sgn));
+}
+
+button[data-inc="1"]{
+  --sgn:1;
+}
+
+button:hover,
+button:focus{
+  background:darkgreen;
+}
+.stack-layout { --n: 2; --k: 0; }
+.stack-layout article:nth-child(1) { --i: 0; --a: 1.92deg; }
+.stack-layout article:nth-child(2) { --i: 1; --a: -3.77deg; }

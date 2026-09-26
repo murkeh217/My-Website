@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Amur leopard image gallery with CSS vars</title>
+   <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet"> <link rel="stylesheet" href="./style.css">
+<script src="https://public.codepenassets.com/js/prefixfree-1.0.7.min.js"></script>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<section class="gallery">
+  <input id="gallery__item--0" type="radio" name="gallery__items" checked="true"/>
+  <label class="gallery__item" for="gallery__item--0">Potato<img src="potato.webp" title="Potato" /></label>
+  <input id="gallery__item--1" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--1">Eggplant<img src="eggplant.webp" title="Eggplant" /></label>
+  <input id="gallery__item--2" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--2">Carrot<img src="carrots.jpg" title="Carrot" /></label>
+  <input id="gallery__item--3" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--3">Onions<img src="onions.jpg" title="Onions" /></label>
+  <input id="gallery__item--4" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--4">Tomato<img src="tomatoes.jpg" title="Tomatoes" /></label>
+  <input id="gallery__item--5" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--5">Lettuce<img src="lettuce.jpg"  title="Lettuce" /></label>
+  <input id="gallery__item--6" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--6">Mint<img src="mint.webp"  title="Mint" /></label>
+  <input id="gallery__item--7" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--7">Rice<img src="rice.jpeg"  title="Rice" /></label>
+  <input id="gallery__item--8" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--8">Noodles<img src="noodles.jpg"title="Noodles" /></label>
+  <input id="gallery__item--9" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--9">Breads<img src="bread.jpg"  title="BRead" /></label>
+  <input id="gallery__item--10" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--10">Chickpeas<img src="chickpeas.webp"  title="Chickpeas" /></label>
+  <input id="gallery__item--11" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--11">Pineapple<img src="pineapples.webp" title="Pineapple" /></label>
+  <input id="gallery__item--12" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--12">Oranges<img src="oranges.jpg"  title="Oranges" /></label>
+  <input id="gallery__item--13" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--13">Sweet lime<img src="sweetlimes.jpg" title="Sweet lime" /></label>
+  <input id="gallery__item--14" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--14">Dragonfruits<img src="dragonfruit.jpg" title="Dragonfruits" /></label>
+  <input id="gallery__item--15" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--15">Jackfruit<img src="jackfruit.jpg"  title="Jackfruit" /></label>
+  <input id="gallery__item--16" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--16">Chicken<img src="chicken.jpg"  title="Chicken" /></label>
+  <input id="gallery__item--17" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--17">Crab<img src="crab.webp"  title="Crab" /></label>
+  <input id="gallery__item--18" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--18">Lobster<img src="lobster.png" title="Lobster" /></label>
+  <input id="gallery__item--19" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--19">Prawns<img src="prawns.jpg"  title="Prawns" /></label>
+  <input id="gallery__item--20" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--20">Fish<img src="fish.png"  title="Fishes" /></label>
+  <input id="gallery__item--21" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--21">Monster<img src="monster.jpeg"  title="Monster" /></label>
+  <input id="gallery__item--22" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--22">Coca Cola<img src="cocacola.jpeg" title="Coca Cola" /></label>
+  <input id="gallery__item--23" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--23">Vanilla Cone<img src="vanillacone.webp" title="Vanilla Cone" /></label>
+  <input id="gallery__item--24" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--24">Egg<img src="eggs.avif"  title="Eggs" /></label>
+  <input id="gallery__item--25" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--25">Apples<img src="apples.webp"  title="Apples" /></label>
+  <input id="gallery__item--26" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--26">Corn<img src="corn.jpg"  title="Corn" /></label>
+  <input id="gallery__item--27" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--27">Shrimps<img src="shrimps.jpg"  title="Shrimps" /></label>
+  <input id="gallery__item--28" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--28">Cucumber<img src="cucumber.avif"  title="Cucumber" /></label>
+  <input id="gallery__item--29" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--29">Sweet Potato<img src="sweetpotato.png"  title="Sweet Potato" /></label>
+  <input id="gallery__item--30" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--30">Yoghurt<img src="yoghurt.jpg"  title="Yoghurt" /></label>
+  <input id="gallery__item--31" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--31">Chocolate<img src="chocolate.avif"  title="Chocolate" /></label>
+  <input id="gallery__item--32" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--32"> 32<img src="mushrooms.avif"  title="Mushroom" /></label>
+  <input id="gallery__item--33" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--33"> 33<img src="persimmon.jpg"  title="Persimmon" /></label>
+  <!--<input id="gallery__item--34" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--34"> 34<img src="34.jpg"  34"title="" /></label>
+  <input id="gallery__item--35" type="radio" name="gallery__items"/>
+  <label class="gallery__item" for="gallery__item--35"> 35<img src="35.jpg"  35"title="" /></label>
+-->
+</section>
+<!--<section class="info">
+  <input id="show" type="checkbox"/>
+  <label for="show">show info</label>
+  <section class="info__content">
+    <p></p>
+  </section>
+</section>-->
+<!-- partial -->
+  
+</body>
+</html>

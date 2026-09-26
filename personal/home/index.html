@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MK Avatar</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+html, body{
+  margin:0;
+  padding:0;
+  min-height:100vh;
+  font-family: serif;
+  background:transparent;
+  color:#e6ffe6;
+}
+
+/* grid container */
+.columns{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:40px;
+  padding:5%;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* each column */
+.column{
+  text-align:center;
+}
+
+/* media */
+.column img,
+.column video{
+  width:100%;
+  height:auto;
+  border-radius:10px;
+}
+
+p{
+  opacity:0.8;
+  line-height:1.6;
+}
+
+/* mobile */
+@media (max-width:900px){
+  .columns{
+    grid-template-columns:1fr;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="columns">
+
+  <!-- Column 1 -->
+  <div class="column">
+
+    <video controls>
+      <source src="poem.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <br><br><br>
+
+    <p>
+      <!-- poetic text here -->
+    </p>
+
+  </div>
+
+  <!-- Column 2 -->
+  <div class="column">
+    <img src="fight.png" title="MK">
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
