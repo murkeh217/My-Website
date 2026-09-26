@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -20,6 +20,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   </head><body><div className="grain" aria-hidden="true" />{children}
-    {process.env.UMAMI_WEBSITE_ID ? <Script strategy="afterInteractive" src={process.env.UMAMI_TRACKER_URL ?? 'https://cloud.umami.is/script.js'} data-website-id={process.env.UMAMI_WEBSITE_ID} data-do-not-track="true" data-exclude-search="true" /> : null}
+    <Analytics />
   </body></html>;
 }

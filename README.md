@@ -19,12 +19,6 @@ npm start
 
 The build prepares the selected original personal and Unity pages under `public/`, then creates the Next.js server build. Start it with `npm start`. Legacy page URLs are preserved; archived snapshots, development files, and documentation are excluded.
 
-## Private analytics
+## Vercel Web Analytics
 
-The site uses Umami Cloud’s free hosted dashboard. The `/analytics` page links to Umami; it does not require paid API access or expose site statistics publicly. To activate tracking:
-
-1. Create a free Umami Cloud account and add your website.
-2. Copy `.env.example` to `.env.local` for local development and paste the website ID from Umami’s tracking code into `UMAMI_WEBSITE_ID`.
-3. Set the same `UMAMI_WEBSITE_ID` in your production host’s environment variables. Keep `UMAMI_TRACKER_URL=https://cloud.umami.is/script.js` for Umami Cloud.
-
-Then open `/analytics` or sign in directly at [Umami Cloud](https://cloud.umami.is) to view the reports available on your free plan. Umami’s free Hobby tier is intended for personal and low-traffic sites. Umami sessions use pseudonymous identifiers and can show visit activity, pages, and device details where the report is available; they do not reveal a visitor's name or email. The tracker stays inactive until `UMAMI_WEBSITE_ID` is configured.
+The site uses Vercel's `@vercel/analytics` integration. No environment variables or separate analytics account are needed. After importing the project into Vercel, open the project's **Analytics** section, enable Web Analytics, and redeploy. View aggregate traffic reports in the Vercel dashboard or via `/analytics`. Reports can include page views, referrers, browser/device, and location trends; they do not identify individual people. See the [Vercel Web Analytics quickstart](https://vercel.com/docs/analytics/quickstart).
