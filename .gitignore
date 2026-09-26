@@ -1,0 +1,14 @@
+node_modules/
+.next/
+dist/
+.astro/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.npm-cache/
+.env*
+!.env.example
+public/personal/
+public/unitydev/
+playwright-report/
+test-results/

@@ -1,0 +1,25 @@
+{
+  "name": "mk-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "predev": "node scripts/copy-original-pages.mjs",
+    "prebuild": "node scripts/copy-original-pages.mjs",
+    "check": "tsc --noEmit",
+    "test": "npm run build && node --test"
+  },
+  "dependencies": {
+    "next": "^16.3.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.9.0"
+  }
+}
