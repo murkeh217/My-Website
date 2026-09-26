@@ -17,7 +17,7 @@ npm test
 npm start
 ```
 
-The build prepares the selected original personal and Unity pages under `public/`, then creates the Next.js server build. Start it with `npm start`. Legacy page URLs are preserved; archived snapshots, development files, and documentation are excluded.
+The build prepares the selected original personal and Unity pages under `public/`, then creates the Next.js server build. The Vercel build command is pinned to `npm run build` so this preparation step always runs. Start it locally with `npm start`. Legacy page URLs are preserved; archived snapshots, development files, and documentation are excluded.
 
 ## Vercel Web Analytics
 
