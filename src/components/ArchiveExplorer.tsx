@@ -65,7 +65,23 @@ export default function ArchiveExplorer({ initialPage, initialCollection }: Arch
     <section className="library-content" aria-label="Selected archive page">
       <div className="content-bar"><div><p className="eyebrow">{selected?.collection ?? 'THE COMPLETE COLLECTION'}</p><h2>{selected?.title ?? 'Choose a page to explore'}</h2></div>{selected && <a className="open-page" href={pageUrl(selected)} target="_blank" rel="noreferrer">OPEN ORIGINAL ↗</a>}</div>
       <div className="content-frame">
-        {selected ? <iframe className="page-frame" title={selected.title} src={pageUrl(selected)} /> : <div className="library-welcome"><span className="welcome-index">FIELD NOTES / 01</span><div><p className="eyebrow">A PERSONAL + CREATIVE ARCHIVE</p><h3>Every interest<br />has a <em>place.</em></h3><p>Personal pages, experiments, interests and works in progress. Choose any page from the collections to explore it here.</p><label>{archivePageCount} PAGES · {archiveCollections.length} COLLECTIONS · ONE CURIOUS MIND</label></div></div>}
+        {selected ? <iframe
+          key={selectedPath}
+          className="page-frame"
+          title={selected.title}
+          src={pageUrl(selected)}
+          onLoad={(event) => {
+            const frame = event.currentTarget;
+            const frameWindow = frame.contentWindow;
+            const frameDocument = frame.contentDocument;
+            frameWindow?.scrollTo(0, 0);
+            if (frameDocument?.scrollingElement) frameDocument.scrollingElement.scrollTop = 0;
+            if (frameDocument?.body) frameDocument.body.scrollTop = 0;
+            frameDocument?.querySelectorAll<HTMLElement>('*').forEach((element) => {
+              if (element.scrollTop > 0) element.scrollTop = 0;
+            });
+          }}
+        /> : <div className="library-welcome"><span className="welcome-index">FIELD NOTES / 01</span><div><p className="eyebrow">A PERSONAL + CREATIVE ARCHIVE</p><h3>Every interest<br />has a <em>place.</em></h3><p>Personal pages, experiments, interests and works in progress. Choose any page from the collections to explore it here.</p><label>{archivePageCount} PAGES · {archiveCollections.length} COLLECTIONS · ONE CURIOUS MIND</label></div></div>}
       </div>
     </section>
   </div>;
