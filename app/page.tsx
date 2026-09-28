@@ -32,6 +32,16 @@ export default function HomePage() {
       <div className="section-head"><div><p className="eyebrow">01 — SELECTED WORK</p><h2>Built to be <em>played.</em></h2></div><p className="section-note">A collection of prototypes, game projects, collaborations and experiments.</p></div>
       <WorkGrid />
       <div className="work-foot"><span>ALSO IN THE WORKSHOP</span><p>Casino game · 2D multiplayer chess · Low-poly zombie FPS · Cheese Factory Myth · VR car simulator · Multiplayer magic game · Visual novel · RPSLS · JOJO Fight · Music prototype · Swinger</p></div>
+      <div className="workshop-banner" aria-label="Animated previews of works in progress">
+        <div className="workshop-track">
+          <div className="workshop-set">
+            {[2, 3, 4, 5, 6].map((number) => <div className="workshop-frame" key={number}><img src={`/unitydev/images/upcoming/post-${number}.gif`} alt={`Animated workshop preview ${number}`} loading="lazy" /></div>)}
+          </div>
+          <div className="workshop-set" aria-hidden="true">
+            {[2, 3, 4, 5, 6].map((number) => <div className="workshop-frame" key={number}><img src={`/unitydev/images/upcoming/post-${number}.gif`} alt="" loading="lazy" /></div>)}
+          </div>
+        </div>
+      </div>
     </section>
 
     <section className="about-band" id="about"><div className="wrap about-layout"><div className="about-label"><p className="eyebrow">02 — THE PERSON BEHIND THE WORK</p><span className="about-index">BUILT WITH CURIOSITY <b>✳</b></span></div><div className="about-copy"><h2>Art gave me expression.<br />Code gave me <em>structure.</em></h2><p>I’ve been working as a freelancer, building interactive 2D/3D games using Unity3D with a focus on gameplay systems, physics mechanics, and mobile performance.</p><p>Now, I’m looking to transition into a full-time role as a <strong>Unity Developer</strong>. I’m working toward joining a AAA game studio and building meaningful, high-quality game experiences.</p><a className="text-link" href="/unitydev/index.html">View the original Unity portfolio <span>↗</span></a></div></div></section>

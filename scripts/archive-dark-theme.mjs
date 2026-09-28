@@ -62,9 +62,12 @@ body a { color: #c5e866; }
 
 export function applyArchiveDarkTheme(html) {
   if (html.includes('data-archive-dark-theme')) return html;
+  const viewport = /<meta\s+[^>]*name=["']viewport["']/i.test(html)
+    ? ''
+    : '<meta name="viewport" content="width=device-width, initial-scale=1">';
   const headClose = new RegExp('</head\\s*>', 'i');
   const bodyOpen = new RegExp('<body\\b', 'i');
   return headClose.test(html)
-    ? html.replace(headClose, `${theme}</head>`)
+    ? html.replace(headClose, `${viewport}${theme}</head>`)
     : html.replace(bodyOpen, `${theme}<body`);
 }

@@ -56,7 +56,7 @@ export default function ArchiveExplorer({ initialPage, initialCollection }: Arch
       <nav className="collection-nav" aria-label="Collections">
         {visibleCollections.map((collection) => <details className="collection-group" key={collection.id} open>
           <summary className="group-title"><span>{collection.label}</span><span className="group-count">{String(collection.pages.length).padStart(2, '0')}</span></summary>
-          <div className="group-items">{collection.pages.map((page) => <button type="button" className="page-link" key={page.path} aria-current={selectedPath === page.path ? 'page' : undefined} onClick={() => choosePage(page.path)}><span>{page.title}</span><span className="page-arrow" aria-hidden="true">↗</span></button>)}</div>
+          <div className="group-items">{collection.pages.map((page) => <a className="page-link" key={page.path} href={`?page=${encodeURIComponent(page.path)}`} aria-current={selectedPath === page.path ? 'page' : undefined} onClick={(event) => { event.preventDefault(); choosePage(page.path); }}><span>{page.title}</span><span className="page-arrow" aria-hidden="true">↗</span></a>)}</div>
         </details>)}
         {visibleCollections.length === 0 && <p className="no-results">No pages match that search. Try another title or collection.</p>}
       </nav>
@@ -74,12 +74,37 @@ export default function ArchiveExplorer({ initialPage, initialCollection }: Arch
             const frame = event.currentTarget;
             const frameWindow = frame.contentWindow;
             const frameDocument = frame.contentDocument;
+            if (frameDocument && !frameDocument.getElementById('archive-hide-scrollbars')) {
+              const scrollbarStyle = frameDocument.createElement('style');
+              scrollbarStyle.id = 'archive-hide-scrollbars';
+              scrollbarStyle.textContent = `html, body, * { scrollbar-width: none !important; } html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; } @media (max-width: 760px) { img, video, canvas, iframe, table { max-width: 100% !important; } img, video, canvas { height: auto; } body { min-width: 0 !important; } }`;
+              frameDocument.head?.appendChild(scrollbarStyle);
+            }
             frameWindow?.scrollTo(0, 0);
             if (frameDocument?.scrollingElement) frameDocument.scrollingElement.scrollTop = 0;
             if (frameDocument?.body) frameDocument.body.scrollTop = 0;
             frameDocument?.querySelectorAll<HTMLElement>('*').forEach((element) => {
               if (element.scrollTop > 0) element.scrollTop = 0;
             });
+            if (frameDocument && frameWindow) {
+              const fitPage = () => {
+                const documentHeight = Math.max(
+                  frameDocument.documentElement.scrollHeight,
+                  frameDocument.body?.scrollHeight ?? 0,
+                );
+                const availableHeight = Math.max(320, window.innerHeight - frame.getBoundingClientRect().top);
+                const nextHeight = Math.max(availableHeight, documentHeight);
+                if (Math.abs(frame.getBoundingClientRect().height - nextHeight) > 2) {
+                  frame.style.height = `${nextHeight}px`;
+                }
+              };
+              fitPage();
+              const resizeObserver = new ResizeObserver(fitPage);
+              resizeObserver.observe(frameDocument.documentElement);
+              if (frameDocument.body) resizeObserver.observe(frameDocument.body);
+              frameWindow.addEventListener('resize', fitPage);
+              frameDocument.fonts?.ready.then(fitPage);
+            }
           }}
         /> : <div className="library-welcome"><span className="welcome-index">FIELD NOTES / 01</span><div><p className="eyebrow">A PERSONAL + CREATIVE ARCHIVE</p><h3>Every interest<br />has a <em>place.</em></h3><p>Personal pages, experiments, interests and works in progress. Choose any page from the collections to explore it here.</p><label>{archivePageCount} PAGES · {archiveCollections.length} COLLECTIONS · ONE CURIOUS MIND</label></div></div>}
       </div>

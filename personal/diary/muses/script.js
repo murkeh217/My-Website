@@ -11,23 +11,15 @@ CustomEase.create("hop", "0.9, 0, 0.1, 1");
 const items = [
   "2B",
   "Psylocke",
-  "Disha Patani",
-  "Angie Miller",
-  "Yuu Shinoda",
   "Rum & Cola",
   "Eve",
-  "Shen Qiao",
   ];
 // Image URLs - replace with your actual image URLs
 const imageUrls = [
   "2bsexy.jpg",
   "psylocke.png",
-  "disha.png",
-  "angiemiller.jpg",
-  "yuushinoda.jpg",
   "rumcola.webp",
   "eve.webp",
-  "shenqiao.jpg"
 ];
 const container = document.querySelector(".container");
 const canvas = document.getElementById("canvas");
@@ -809,15 +801,16 @@ function animate() {
   }
   requestAnimationFrame(animate);
 }
-container.addEventListener("mousedown", (e) => {
-  if (!canDrag) return;
+container.addEventListener("pointerdown", (e) => {
+  if (!canDrag || !e.isPrimary || e.button !== 0) return;
   isDragging = true;
   mouseHasMoved = false;
   startX = e.clientX;
   startY = e.clientY;
+  lastDragTime = Date.now();
   container.style.cursor = "grabbing";
 });
-window.addEventListener("mousemove", (e) => {
+window.addEventListener("pointermove", (e) => {
   if (!isDragging || !canDrag) return;
   const dx = e.clientX - startX;
   const dy = e.clientY - startY;
@@ -834,42 +827,26 @@ window.addEventListener("mousemove", (e) => {
   startX = e.clientX;
   startY = e.clientY;
 });
-window.addEventListener("mouseup", (e) => {
+function finishDrag(applyMomentum = true) {
   if (!isDragging) return;
   isDragging = false;
   if (canDrag) {
     container.style.cursor = "grab";
-    if (Math.abs(dragVelocityX) > 0.1 || Math.abs(dragVelocityY) > 0.1) {
+    if (applyMomentum && (Math.abs(dragVelocityX) > 0.1 || Math.abs(dragVelocityY) > 0.1)) {
       const momentumFactor = settings.momentumFactor;
       targetX += dragVelocityX * momentumFactor;
       targetY += dragVelocityY * momentumFactor;
     }
   }
+}
+window.addEventListener("pointerup", () => finishDrag());
+window.addEventListener("pointercancel", () => finishDrag(false));
+window.addEventListener("blur", () => finishDrag(false));
+container.addEventListener("pointerleave", (e) => {
+  if (e.relatedTarget === null) finishDrag(false);
 });
 overlay.addEventListener("click", () => {
   if (isExpanded) closeExpandedItem();
-});
-container.addEventListener("touchstart", (e) => {
-  if (!canDrag) return;
-  isDragging = true;
-  mouseHasMoved = false;
-  startX = e.touches[0].clientX;
-  startY = e.touches[0].clientY;
-});
-window.addEventListener("touchmove", (e) => {
-  if (!isDragging || !canDrag) return;
-  const dx = e.touches[0].clientX - startX;
-  const dy = e.touches[0].clientY - startY;
-  if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-    mouseHasMoved = true;
-  }
-  targetX += dx;
-  targetY += dy;
-  startX = e.touches[0].clientX;
-  startY = e.touches[0].clientY;
-});
-window.addEventListener("touchend", () => {
-  isDragging = false;
 });
 window.addEventListener("resize", () => {
   if (isExpanded && expandedItem) {
