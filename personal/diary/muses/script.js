@@ -60,13 +60,16 @@ let itemSizes = [
   }
 ];
 let itemGap = settings.itemGap;
-let columns = 4;
+let columns = 2;
 const itemCount = items.length;
 const maxVisibleItems = 4;
 // Calculate grid cell size based on the largest possible item
 let cellWidth = settings.baseWidth + settings.itemGap;
 let cellHeight =
   Math.max(settings.smallHeight, settings.largeHeight) + settings.itemGap;
+let gridOffsetX = 0;
+let gridOffsetY = 0;
+let gridOffsetNeedsUpdate = false;
 let isDragging = false;
 let startX, startY;
 let targetX = 0,
@@ -353,12 +356,12 @@ function updateSettings() {
     }
   ];
   itemGap = settings.itemGap;
-  // Remove columns dependency - use a fixed value
-  columns = 4;
+  columns = 2;
   // Recalculate cell dimensions
   cellWidth = settings.baseWidth + settings.itemGap;
   cellHeight =
     Math.max(settings.smallHeight, settings.largeHeight) + settings.itemGap;
+  updateGridOffset();
   // Clear existing items and rebuild
   visibleItems.forEach((itemId) => {
     const item = document.getElementById(itemId);
@@ -443,14 +446,33 @@ function getItemSize(row, col) {
 function getItemId(col, row) {
   return `${col},${row}`;
 }
+function updateGridOffset() {
+  const gridWidth = columns * cellWidth - itemGap;
+  const gridHeight =
+    Math.ceil(maxVisibleItems / columns) * cellHeight - itemGap;
+  gridOffsetX = (window.innerWidth - gridWidth) / 2;
+  gridOffsetY = (window.innerHeight - gridHeight) / 2;
+}
 // Get the absolute position for an item
 function getItemPosition(col, row) {
-  const xPos = col * cellWidth;
-  const yPos = row * cellHeight;
+  const xPos = col * cellWidth + gridOffsetX;
+  const yPos = row * cellHeight + gridOffsetY;
   return {
     x: xPos,
     y: yPos
   };
+}
+function repositionVisibleItems() {
+  visibleItems.forEach((itemId) => {
+    const item = document.getElementById(itemId);
+    if (!item) return;
+    const position = getItemPosition(
+      Number(item.dataset.col),
+      Number(item.dataset.row)
+    );
+    item.style.left = `${position.x}px`;
+    item.style.top = `${position.y}px`;
+  });
 }
 
 function updateVisibleItems() {
@@ -471,7 +493,9 @@ function updateVisibleItems() {
   ) {
     for (
       let col = startCol;
-      col <= endCol && currentItems.size < maxVisibleItems;
+      col <= endCol &&
+      col < startCol + columns &&
+      currentItems.size < maxVisibleItems;
       col++
     ) {
       const itemId = getItemId(col, row);
@@ -785,6 +809,11 @@ function closeExpandedItem() {
       container.style.cursor = "grab";
       dragVelocityX = 0;
       dragVelocityY = 0;
+      if (gridOffsetNeedsUpdate) {
+        updateGridOffset();
+        repositionVisibleItems();
+        gridOffsetNeedsUpdate = false;
+      }
       // Remove active class from overlay after animation completes
       overlay.classList.remove("active");
     }
@@ -859,6 +888,7 @@ overlay.addEventListener("click", () => {
 });
 window.addEventListener("resize", () => {
   if (isExpanded && expandedItem) {
+    gridOffsetNeedsUpdate = true;
     const viewportWidth = window.innerWidth;
     const targetWidth = viewportWidth * settings.expandedScale;
     // Maintain aspect ratio
@@ -873,6 +903,8 @@ window.addEventListener("resize", () => {
       ease: "power2.out"
     });
   } else {
+    updateGridOffset();
+    repositionVisibleItems();
     updateVisibleItems();
   }
 });
@@ -885,6 +917,7 @@ function initializeStyles() {
 }
 // Initialize
 initializeStyles();
+updateGridOffset();
 updateVisibleItems();
 animate();
 // Initialize Tweakpane after a short delay to ensure DOM is ready
