@@ -29,8 +29,8 @@ const projectTitleElement = document.querySelector(".project-title p");
 const settings = {
   // Item sizes
   baseWidth: 400,
-  smallHeight: 330,
-  largeHeight: 500,
+  smallHeight: 700,
+  largeHeight: 800,
   itemGap: 65,
   hoverScale: 1.05,
   expandedScale: 0.4, // Percentage of viewport width
@@ -128,14 +128,14 @@ function initTweakpane() {
   sizeFolder
     .addBinding(settings, "smallHeight", {
       min: 100,
-      max: 400,
+      max: 800,
       step: 10
     })
     .on("change", updateSettings);
   sizeFolder
     .addBinding(settings, "largeHeight", {
       min: 100,
-      max: 600,
+      max: 900,
       step: 10
     })
     .on("change", updateSettings);
