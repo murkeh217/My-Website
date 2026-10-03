@@ -62,6 +62,7 @@ let itemSizes = [
 let itemGap = settings.itemGap;
 let columns = 4;
 const itemCount = items.length;
+const maxVisibleItems = 4;
 // Calculate grid cell size based on the largest possible item
 let cellWidth = settings.baseWidth + settings.itemGap;
 let cellHeight =
@@ -457,14 +458,22 @@ function updateVisibleItems() {
   const viewWidth = window.innerWidth * (1 + buffer);
   const viewHeight = window.innerHeight * (1 + buffer);
   // Calculate visible range based on current position and buffer
-  const startCol = Math.floor((-currentX - viewWidth / 2) / cellWidth);
+  const startCol = Math.floor(-currentX / cellWidth);
   const endCol = Math.ceil((-currentX + viewWidth * 1.5) / cellWidth);
-  const startRow = Math.floor((-currentY - viewHeight / 2) / cellHeight);
+  const startRow = Math.floor(-currentY / cellHeight);
   const endRow = Math.ceil((-currentY + viewHeight * 1.5) / cellHeight);
   const currentItems = new Set();
   // Create or update visible items
-  for (let row = startRow; row <= endRow; row++) {
-    for (let col = startCol; col <= endCol; col++) {
+  for (
+    let row = startRow;
+    row <= endRow && currentItems.size < maxVisibleItems;
+    row++
+  ) {
+    for (
+      let col = startCol;
+      col <= endCol && currentItems.size < maxVisibleItems;
+      col++
+    ) {
       const itemId = getItemId(col, row);
       currentItems.add(itemId);
       if (visibleItems.has(itemId)) continue;
