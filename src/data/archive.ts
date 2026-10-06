@@ -41,7 +41,7 @@ export const archiveCollections: ArchiveCollection[] = [
     { title: 'Diet', path: 'personal/journal/diet/index.html' },
     { title: 'Directors', path: 'personal/journal/directors/index.html' },
     { title: 'Ghosts', path: 'personal/journal/ghosts/index.html' },
-    { title: 'Girls', path: 'personal/journal/girls/index.html' },
+    { title: 'Preferences', path: 'personal/journal/preferences/index.html' },
     { title: 'Internet', path: 'personal/journal/internet/index.html' },
     { title: 'Mathematics', path: 'personal/journal/math/index.html' },
     { title: 'Powers', path: 'personal/journal/powers/index.html' },

@@ -46,7 +46,7 @@ const settings = {
   expandedScale: 0.4, // Percentage of viewport width
   dragEase: 0.075,
   momentumFactor: 200,
-  bufferZone: 3,
+  bufferZone: 0.5,
   borderRadius: 0,
   vignetteSize: 0,
   // Page vignette settings - simplified to two main controls
@@ -163,9 +163,9 @@ function initTweakpane() {
     .on("change", updateSettings);
   layoutFolder
     .addBinding(settings, "bufferZone", {
-      min: 1,
-      max: 5,
-      step: 0.5
+      min: 0.25,
+      max: 2,
+      step: 0.25
     })
     .on("change", updateSettings);
   // Style settings
@@ -486,28 +486,16 @@ function repositionVisibleItems() {
 }
 
 function updateVisibleItems() {
-  const buffer = settings.bufferZone;
-  const viewWidth = window.innerWidth * (1 + buffer);
-  const viewHeight = window.innerHeight * (1 + buffer);
-  // Calculate visible range based on current position and buffer
-  const startCol = Math.floor(-currentX / cellWidth);
-  const endCol = Math.ceil((-currentX + viewWidth * 1.5) / cellWidth);
-  const startRow = Math.floor(-currentY / cellHeight);
-  const endRow = Math.ceil((-currentY + viewHeight * 1.5) / cellHeight);
+  const bufferX = window.innerWidth * settings.bufferZone;
+  const bufferY = window.innerHeight * settings.bufferZone;
+  const startCol = Math.floor((-currentX - gridOffsetX - bufferX) / cellWidth) - 1;
+  const endCol = Math.ceil((window.innerWidth - currentX - gridOffsetX + bufferX) / cellWidth) + 1;
+  const startRow = Math.floor((-currentY - gridOffsetY - bufferY) / cellHeight) - 1;
+  const endRow = Math.ceil((window.innerHeight - currentY - gridOffsetY + bufferY) / cellHeight) + 1;
   const currentItems = new Set();
   // Create or update visible items
-  for (
-    let row = startRow;
-    row <= endRow && currentItems.size < maxVisibleItems;
-    row++
-  ) {
-    for (
-      let col = startCol;
-      col <= endCol &&
-      col < startCol + columns &&
-      currentItems.size < maxVisibleItems;
-      col++
-    ) {
+  for (let row = startRow; row <= endRow; row++) {
+    for (let col = startCol; col <= endCol; col++) {
       const itemId = getItemId(col, row);
       currentItems.add(itemId);
       if (visibleItems.has(itemId)) continue;
@@ -858,6 +846,12 @@ container.addEventListener("pointerdown", (e) => {
   lastDragTime = Date.now();
   container.style.cursor = "grabbing";
 });
+container.addEventListener("wheel", (e) => {
+  if (!canDrag || isExpanded) return;
+  e.preventDefault();
+  targetX -= e.deltaX;
+  targetY -= e.deltaY;
+}, { passive: false });
 window.addEventListener("pointermove", (e) => {
   if (!isDragging || !canDrag) return;
   const dx = e.clientX - startX;
