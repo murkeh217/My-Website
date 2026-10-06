@@ -13,6 +13,11 @@ const items = [
   "Psylocke",
   "Rum & Cola",
   "Eve",
+  "Poison Ivy",
+  "Polaris",
+  "Silk",
+  "Sakurako",
+  "Jolyne",
   ];
 // Image URLs - replace with your actual image URLs
 const imageUrls = [
@@ -20,6 +25,11 @@ const imageUrls = [
   "psylocke.png",
   "rumcola.webp",
   "eve.webp",
+  "poisonivy.jpg",
+  "polaris.webp",
+  "silk.webp",
+  "sakurako.webp",
+  "jolyne.jpg",
 ];
 const container = document.querySelector(".container");
 const canvas = document.getElementById("canvas");
