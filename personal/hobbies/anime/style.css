@@ -4,7 +4,7 @@
 	display: grid;
 	gap: 4px;
 	grid-auto-flow: row dense;
-	grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(66px, 1fr));
 	inline-size: 100%;
 	max-inline-size: 1200px;
 	padding: 40px 40px;
@@ -46,8 +46,33 @@
 	z-index: 3;
 }
 
-.supporter-list a.gold:hover img {
-	transform: scale(2.2);
+.supporter-list a::before {
+	content: attr(data-title);
+	position: absolute;
+	top: var(--cursor-y, 50%);
+	left: var(--cursor-x, 50%);
+	transform: translate(12px, 12px);
+	width: max-content;
+	max-width: 90%;
+	padding: 6px 8px;
+	border-radius: 3px;
+	background: rgba(0, 0, 0, 0.82);
+	color: #fff;
+	font: 600 12px/1.35 sans-serif;
+	text-align: center;
+	white-space: normal;
+	opacity: 0;
+	transition: opacity 150ms linear;
+	pointer-events: none;
+	z-index: 4;
+}
+
+.supporter-list a:hover::before {
+	opacity: 1;
+}
+
+.supporter-list a:hover img {
+	transform: scale(3);
 }
 
 /* DARK OVERLAY */
