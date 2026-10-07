@@ -11,6 +11,7 @@ export const archiveCollections: ArchiveCollection[] = [
     { title: 'Projects', path: 'personal/projects/index.html' },
   ] },
   { id: 'diary', label: 'DIARY', pages: [
+    { title: 'Collection', path: 'personal/journal/collection/index.html' },
     { title: 'Identity', path: 'personal/diary/identity/index.html' },
     { title: 'Internet', path: 'personal/journal/internet/index.html' },
     { title: 'Languages', path: 'personal/diary/languages/index.html' },
@@ -34,7 +35,6 @@ export const archiveCollections: ArchiveCollection[] = [
     { title: 'Video games', path: 'personal/hobbies/video games/index.html' },
   ] },
   { id: 'journal', label: 'JOURNAL', pages: [
-    { title: 'Collection', path: 'personal/journal/collection/index.html' },
     { title: 'Cult', path: 'personal/journal/cult/index.html' },
     { title: 'Diet', path: 'personal/journal/diet/index.html' },
     { title: 'Directors', path: 'personal/journal/directors/index.html' },

@@ -5,6 +5,7 @@ const collections = [
     ['Projects', 'personal/projects/index.html'],
   ]},
   { id: 'diary', label: 'DIARY', pages: [
+    ['Collection', 'personal/journal/collection/index.html'],
     ['Identity', 'personal/diary/identity/index.html'],
     ['Internet', 'personal/journal/internet/index.html'],
     ['Languages', 'personal/diary/languages/index.html'],
@@ -29,7 +30,6 @@ const collections = [
     ['Video games', 'personal/hobbies/video%20games/index.html'],
   ]},
   { id: 'journal', label: 'JOURNAL', pages: [
-    ['Collection', 'personal/journal/collection/index.html'],
     ['Cult', 'personal/journal/cult/index.html'],
     ['Diet', 'personal/journal/diet/index.html'],
     ['Directors', 'personal/journal/directors/index.html'],
