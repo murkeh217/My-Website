@@ -459,6 +459,21 @@
 					const bounds = tile.getBoundingClientRect();
 					tile.style.setProperty("--cursor-x", `${event.clientX - bounds.left}px`);
 					tile.style.setProperty("--cursor-y", `${event.clientY - bounds.top}px`);
+					const overflowX = bounds.width * 3.4;
+					const overflowY = bounds.height * 3.4;
+					const rightSpace = window.innerWidth - bounds.right;
+					const bottomSpace = window.innerHeight - bounds.bottom;
+					const originX = bounds.left >= overflowX
+						? 100
+						: rightSpace >= overflowX
+							? 0
+							: bounds.left > rightSpace ? 100 : 0;
+					const originY = bounds.top >= overflowY
+						? 100
+						: bottomSpace >= overflowY
+							? 0
+							: bounds.top > bottomSpace ? 100 : 0;
+					tile.style.setProperty("--zoom-origin", `${originX}% ${originY}%`);
 				});
 			}
 		});
