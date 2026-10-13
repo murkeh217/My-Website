@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { projects, type ProjectKind } from '../data/projects';
+import { useLanguage } from './LanguageProvider';
 
 const filters: { id: 'all' | ProjectKind; label: string }[] = [
   { id: 'all', label: 'All work' },
@@ -11,13 +12,16 @@ const filters: { id: 'all' | ProjectKind; label: string }[] = [
 ];
 
 export default function WorkGrid() {
+  const { locale } = useLanguage();
+  const hi = locale === 'hi';
+  const zh = locale === 'zh-CN';
   const [filter, setFilter] = useState<(typeof filters)[number]['id']>('all');
   const visibleProjects = useMemo(() => filter === 'all' ? projects : projects.filter((project) => project.kind === filter), [filter]);
 
   return <>
-    <div className="filters" role="group" aria-label="Filter projects">
+    <div className="filters" role="group" aria-label={zh ? '筛选项目' : hi ? 'प्रोजेक्ट छाँटें' : 'Filter projects'}>
       {filters.map((item) => <button key={item.id} className={`filter${filter === item.id ? ' active' : ''}`} type="button" aria-pressed={filter === item.id} onClick={() => setFilter(item.id)}>
-        {item.label}<span>{item.id === 'all' ? String(projects.length).padStart(2, '0') : String(projects.filter((project) => project.kind === item.id).length).padStart(2, '0')}</span>
+        {zh ? ({ 'all': '全部作品', 'game': '游戏', 'client': '客户项目', 'experiment': '实验' }[item.id]) : hi ? ({ 'all': 'सभी काम', 'game': 'गेम', 'client': 'क्लाइंट काम', 'experiment': 'प्रयोग' }[item.id]) : item.label}<span>{item.id === 'all' ? String(projects.length).padStart(2, '0') : String(projects.filter((project) => project.kind === item.id).length).padStart(2, '0')}</span>
       </button>)}
     </div>
     <div className="project-grid" aria-live="polite">

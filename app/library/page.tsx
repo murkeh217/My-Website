@@ -1,4 +1,5 @@
 import ArchiveExplorer from '@/src/components/ArchiveExplorer';
+import LanguageSwitcher from '@/src/components/LanguageSwitcher';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +14,7 @@ export const metadata = {
 export default async function LibraryPage({ searchParams }: ArchivePageProps) {
   const query = await searchParams;
   return <>
-    <header className="library-topbar"><a className="wordmark" href="/index.html"><span className="mark">MK</span><span>MURTAZA KANORWALA <span className="wordmark-muted">/ ARCHIVE</span></span></a><a className="back-home" href="/index.html">← BACK TO PORTFOLIO</a></header>
+    <header className="library-topbar"><a className="wordmark" href="/"><span className="mark">MK</span><span>MURTAZA KANORWALA <span className="wordmark-muted">/ ARCHIVE</span></span></a><div className="library-topbar-tools"><a className="back-home" href="/">← BACK TO PORTFOLIO</a><LanguageSwitcher /></div></header>
     <main><ArchiveExplorer initialPage={query.page} initialCollection={query.collection} /></main>
   </>;
 }
