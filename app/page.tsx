@@ -1,11 +1,40 @@
 import WorkGrid from '@/src/components/WorkGrid';
 import { archivePageCount } from '@/src/data/archive';
+import type { Metadata } from 'next';
 import RevealObserver from './RevealObserver';
 
 export const dynamic = 'force-dynamic';
 
+export const metadata: Metadata = {
+  title: 'Unity Game Developer & Gameplay Programmer',
+  description: 'Explore Murtaza (MK) Kanorwala’s Unity game development portfolio: 2D and 3D games, C# gameplay programming, physics systems, VR projects, and prototypes.',
+  alternates: { canonical: '/' },
+  openGraph: {
+    title: 'Unity Game Developer & Gameplay Programmer | Murtaza Kanorwala',
+    description: 'Explore Murtaza Kanorwala’s Unity game development portfolio, including 2D and 3D games, C# gameplay systems, physics mechanics, VR, and prototypes.',
+    url: 'https://murtazakanorwala.vercel.app',
+  },
+};
+
+const profileJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  name: 'Murtaza Kanorwala — Unity Game Developer Portfolio',
+  url: 'https://murtazakanorwala.vercel.app',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Murtaza (MK) Kanorwala',
+    url: 'https://murtazakanorwala.vercel.app',
+    jobTitle: 'Unity Game Developer',
+    description: 'Unity developer building interactive 2D and 3D games, gameplay systems, physics mechanics, and mobile experiences.',
+    knowsAbout: ['Unity', 'C#', 'Game development', 'Gameplay programming', 'Physics simulation', 'Mobile game optimization', 'VR and AR'],
+    sameAs: ['https://github.com/murkeh217', 'https://www.youtube.com/@murkeh217'],
+  },
+};
+
 export default function HomePage() {
   return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd).replace(/</g, '\\u003c') }} />
 <header className="topbar">
     <a className="wordmark" href="#home" aria-label="MK home"><span>PORTFOLIO<span className="wordmark-year"> / 2026</span></span></a>
     <nav className="desktop-nav" aria-label="Main navigation"><a href="#work">Work</a><a href="#about">About</a><a href="#personal">Personal</a><a href="/library">Archive</a><a href="#contact">Contact</a></nav>

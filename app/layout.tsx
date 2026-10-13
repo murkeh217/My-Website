@@ -3,13 +3,26 @@ import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'MK — Unity Developer & Maker',
-  description: 'Murtaza (MK) Kanorwala — Unity developer, curious maker and personal archivist.',
+  metadataBase: new URL('https://murtazakanorwala.vercel.app'),
+  title: {
+    default: 'Murtaza Kanorwala | Unity Game Developer',
+    template: '%s | Murtaza Kanorwala',
+  },
+  description: 'Murtaza (MK) Kanorwala is a Unity game developer in India, building interactive 2D and 3D games with C#, gameplay systems, physics mechanics, and mobile optimization.',
   applicationName: 'MK Portfolio',
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
-    title: 'MK — Unity Developer & Maker',
-    description: 'Interactive games, creative work, and a personal archive.',
+    siteName: 'Murtaza Kanorwala Portfolio',
+    title: 'Murtaza Kanorwala | Unity Game Developer',
+    description: 'Unity game developer in India, creating interactive 2D and 3D games with C# and gameplay systems.',
+    url: 'https://murtazakanorwala.vercel.app',
+    locale: 'en_IN',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Murtaza Kanorwala | Unity Game Developer',
+    description: 'Unity game developer in India, creating interactive 2D and 3D games with C# and gameplay systems.',
   },
 };
 

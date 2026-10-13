@@ -5,8 +5,9 @@ export const dynamic = 'force-dynamic';
 type ArchivePageProps = { searchParams: Promise<{ page?: string; collection?: string }> };
 
 export const metadata = {
-  title: 'Archive — MK',
-  description: 'Explore Murtaza Kanorwala’s personal pages, collections, interests and works in progress.',
+  title: 'Game Development Projects & Personal Archive',
+  description: 'Browse Murtaza Kanorwala’s archive alongside his Unity game development portfolio, experiments, creative projects, interests, and works in progress.',
+  alternates: { canonical: '/library' },
 };
 
 export default async function LibraryPage({ searchParams }: ArchivePageProps) {
