@@ -1,7 +1,7 @@
 export type ArchiveCollection = {
   id: string;
   label: string;
-  pages: { title: string; path: string; thumbnail?: string }[];
+  pages: { title: string; path: string }[];
 };
 
 export const archiveCollections: ArchiveCollection[] = [
@@ -11,14 +11,14 @@ export const archiveCollections: ArchiveCollection[] = [
     { title: 'Projects', path: 'personal/projects/index.html' },
   ] },
   { id: 'diary', label: 'DIARY', pages: [
-    { title: 'Collection', path: 'personal/journal/collection/index.html', thumbnail: 'personal/journal/collection/ps2.jpg' },
-    { title: 'Identity', path: 'personal/diary/identity/index.html', thumbnail: 'personal/diary/identity/character.png' },
-    { title: 'Internet', path: 'personal/journal/internet/index.html', thumbnail: 'personal/journal/internet/epicgames.svg' },
-    { title: 'Languages', path: 'personal/diary/languages/index.html', thumbnail: 'personal/diary/languages/hindi.webp' },
+    { title: 'Collection', path: 'personal/journal/collection/index.html' },
+    { title: 'Identity', path: 'personal/diary/identity/index.html' },
+    { title: 'Internet', path: 'personal/journal/internet/index.html' },
+    { title: 'Languages', path: 'personal/diary/languages/index.html' },
     { title: 'Personality', path: 'personal/diary/personality/index.html' },
-    { title: 'Philosophy', path: 'personal/diary/philosophy/index.html', thumbnail: 'personal/diary/philosophy/nietze.jpg' },
-    { title: 'Travel', path: 'personal/diary/travel/index.html', thumbnail: 'personal/diary/travel/beach1.jpg' },
-    { title: 'Travel · alternate gallery', path: 'personal/diary/travel/index 2.html', thumbnail: 'personal/diary/travel/forest1.jpg' },
+    { title: 'Philosophy', path: 'personal/diary/philosophy/index.html' },
+    { title: 'Travel', path: 'personal/diary/travel/index.html' },
+    { title: 'Travel · alternate gallery', path: 'personal/diary/travel/index 2.html' },
   ] },
   { id: 'hobbies', label: 'HOBBIES', pages: [
     { title: 'Anime', path: 'personal/hobbies/anime/index.html' },
