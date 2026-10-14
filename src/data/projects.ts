@@ -19,6 +19,6 @@ export const projects: Project[] = [
   { title: 'Fingers Crossed', summary: 'A small game about timing and chance', label: 'PLAY', kind: 'game', image: '/unitydev/images/fingerscrossed.webp', alt: 'Fingers Crossed dialogue scene with a character and choices', href: 'https://murkeh217.github.io/fingers_crossed' },
   { title: 'Hurdle Runner', summary: 'Fast, focused arcade action', label: 'PLAY', kind: 'game', image: '/unitydev/images/hurdlerunner.webp', alt: 'Hurdle Runner course with obstacles and score', href: 'https://murkeh217.github.io/hurdle-race' },
   { title: 'Eye-Care VR App', summary: 'Meta Quest 2 · Netcode · UI Toolkit', label: 'VR', kind: 'client', image: '/unitydev/images/eye.png', alt: 'Eye-care VR app' },
-  { title: 'Horror Hotel UI', summary: 'Reservation panel & interface logic', label: 'UI', kind: 'client', image: '/unitydev/images/hotel.png', alt: 'Horror hotel reservation interface' },
+  { title: 'Bloody Hell Hotel UI', summary: 'Reservation panel & interface logic', label: 'UI', kind: 'client', image: '/unitydev/images/hotel.png', alt: 'Bloody Hell Hotel reservation interface' },
   { title: 'TPS Roguelite', summary: 'Procedural room exploration', label: 'WIP', kind: 'experiment', image: '/unitydev/images/tps.png', alt: 'Third-person roguelite prototype' },
 ];
