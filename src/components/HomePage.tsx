@@ -6,6 +6,7 @@ import LanguageSwitcher from '@/src/components/LanguageSwitcher';
 import { useLanguage } from './LanguageProvider';
 import RevealObserver from '../../app/RevealObserver';
 import HeroCharacter from './HeroCharacter.jsx';
+import LoadingImage from './LoadingImage';
 
 const profileJsonLd = {
   '@context': 'https://schema.org',
@@ -58,10 +59,10 @@ export default function HomePage() {
       <div className="workshop-banner" aria-label="Animated previews of works in progress">
         <div className="workshop-track">
           <div className="workshop-set">
-            {[2, 3, 4, 5, 6].map((number) => <div className="workshop-frame" key={number}><img src={`/unitydev/images/upcoming/post-${number}.gif`} alt={`Animated workshop preview ${number}`} loading="lazy" /></div>)}
+            {[2, 3, 4, 5, 6].map((number) => <div className="workshop-frame" key={number}><LoadingImage src={`/unitydev/images/upcoming/post-${number}.gif`} alt={`Animated workshop preview ${number}`} loading="lazy" /></div>)}
           </div>
           <div className="workshop-set" aria-hidden="true">
-            {[2, 3, 4, 5, 6].map((number) => <div className="workshop-frame" key={number}><img src={`/unitydev/images/upcoming/post-${number}.gif`} alt="" loading="lazy" /></div>)}
+            {[2, 3, 4, 5, 6].map((number) => <div className="workshop-frame" key={number}><LoadingImage src={`/unitydev/images/upcoming/post-${number}.gif`} alt="" loading="lazy" /></div>)}
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { projects, type ProjectKind } from '../data/projects';
 import { useLanguage } from './LanguageProvider';
+import LoadingImage from './LoadingImage';
 
 const filters: { id: 'all' | ProjectKind; label: string }[] = [
   { id: 'all', label: 'All work' },
@@ -25,9 +26,9 @@ export default function WorkGrid() {
       </button>)}
     </div>
     <div className="project-grid" aria-live="polite">
-      {visibleProjects.map((project, index) => {
+      {visibleProjects.map((project) => {
         const content = <>
-          <div className="project-image"><img src={project.image} alt={project.alt} loading={index > 2 ? 'lazy' : 'eager'} /><span className="project-number">{String(projects.indexOf(project) + 1).padStart(2, '0')} / {project.kind.toUpperCase()}</span><span className="project-arrow" aria-hidden="true">{project.href ? '↗' : '✳'}</span></div>
+          <div className="project-image"><LoadingImage src={project.image} alt={project.alt} loading="lazy" /><span className="project-number">{String(projects.indexOf(project) + 1).padStart(2, '0')} / {project.kind.toUpperCase()}</span><span className="project-arrow" aria-hidden="true">{project.href ? '↗' : '✳'}</span></div>
           <div className="project-info"><div><h3>{project.title}</h3><p>{project.summary}</p></div><span className="project-year">{project.label}</span></div>
         </>;
         return project.href
