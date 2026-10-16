@@ -15,7 +15,7 @@
 
 .workshop-banner{margin-top:25px;overflow:hidden;border:1px solid #34382e;background:linear-gradient(120deg,#151811,#10120e);mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
 .workshop-track,.workshop-set{display:flex;width:max-content;align-items:center}
-.workshop-track{animation:workshop-marquee 72s linear infinite}
+.workshop-track{animation:workshop-marquee 48s linear infinite;will-change:transform}
 .workshop-banner:hover .workshop-track{animation-play-state:paused}
 .workshop-set{gap:12px;padding:12px 6px}
 .workshop-frame{flex:0 0 clamp(210px,25vw,300px);height:166px;display:grid;place-items:center;overflow:hidden;border:1px solid #363b30;background:#0d0f0c}

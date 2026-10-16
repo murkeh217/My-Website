@@ -55,7 +55,7 @@ export default function HomePage() {
     <section className="section wrap" id="work">
       <div className="section-head"><div><p className="eyebrow">01 — {zh ? '精选作品' : hi ? 'चुने हुए प्रोजेक्ट' : 'SELECTED WORK'}</p><h2>{zh ? <>为游玩而<br /><em>打造。</em></> : hi ? <>खेलने के लिए<br /><em>बनाए गए।</em></> : <>Built to be <em>played.</em></>}</h2></div><p className="section-note">{zh ? '游戏原型、项目、合作作品与实验的精选集。' : hi ? 'गेम प्रोटोटाइप, प्रोजेक्ट, सहयोग और प्रयोगों का संग्रह।' : 'A collection of prototypes, game projects, collaborations and experiments.'}</p></div>
       <WorkGrid />
-      <div className="work-foot"><span>{zh ? '其他开发中的作品' : hi ? 'वर्कशॉप में अन्य प्रोजेक्ट' : 'ALSO IN THE WORKSHOP'}</span><p>Casino game · 2D multiplayer chess · Low-poly zombie FPS · Cheese Factory Myth · VR car simulator · Multiplayer magic game · Visual novel · RPSLS · JOJO Fight · Music prototype · Swinger</p></div>
+      <div className="work-foot"><span>{zh ? '其他开发中的作品' : hi ? 'वर्कशॉप में अन्य प्रोजेक्ट' : 'ALSO IN THE WORKSHOP'}</span><p>{zh ? '更多原型与实验正在开发中。' : hi ? 'कुछ और प्रोटोटाइप और प्रयोग अभी बन रहे हैं।' : 'More prototypes and experiments are in progress.'}</p></div>
       <div className="workshop-banner" aria-label="Animated previews of works in progress">
         <div className="workshop-track">
           <div className="workshop-set">
