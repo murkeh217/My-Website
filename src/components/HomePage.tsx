@@ -5,6 +5,7 @@ import { archivePageCount } from '@/src/data/archive';
 import LanguageSwitcher from '@/src/components/LanguageSwitcher';
 import { useLanguage } from './LanguageProvider';
 import RevealObserver from '../../app/RevealObserver';
+import HeroCharacter from './HeroCharacter.jsx';
 
 const profileJsonLd = {
   '@context': 'https://schema.org',
@@ -43,7 +44,7 @@ export default function HomePage() {
         <div className="hero-actions"><a className="button button-lime" href="#work">{zh ? '查看我的作品' : hi ? 'मेरा काम देखें' : 'Explore my work'} <span>↘</span></a><a className="text-link" href="#about">{zh ? '关于我' : hi ? 'मेरे बारे में' : 'A little about me'} <span>↓</span></a></div>
         <div className="hero-meta"><span>{zh ? '位于印度' : hi ? 'भारत में स्थित' : 'BASED IN INDIA'}</span><span>{zh ? '独立创作者' : hi ? 'स्वतंत्र निर्माता' : 'INDEPENDENT CREATOR'}</span></div>
       </div>
-      <div className="hero-monogram" aria-label="MK monogram" role="img"><span>MK</span></div>
+      <div className="hero-monogram" aria-label="MK monogram" role="img"><span>MK</span><HeroCharacter /></div>
       <a className="scroll-cue" href="#work"><span>{zh ? '向下探索' : hi ? 'देखने के लिए नीचे जाएँ' : 'SCROLL TO EXPLORE'}</span><i>↓</i></a>
       <span className="hero-index" aria-hidden="true">01 — 06</span>
     </section>
