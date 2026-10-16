@@ -86,7 +86,21 @@ export default function HeroCharacter() {
           model.scale.setScalar(fitDiameter / Math.max(size.x, size.y, 0.001));
           model.position.set(-center.x * model.scale.x, -bounds.min.y * model.scale.y, -center.z * model.scale.z);
           model.traverse((item) => {
-            if (item.isMesh) item.frustumCulled = false;
+            if (!item.isMesh) return;
+            item.frustumCulled = false;
+            const materials = Array.isArray(item.material) ? item.material : [item.material];
+            materials.forEach((material) => {
+              if (!material) return;
+              if ('roughness' in material) material.roughness = 1;
+              if ('metalness' in material) material.metalness = 0;
+              if ('envMapIntensity' in material) material.envMapIntensity = 0;
+              if ('clearcoat' in material) material.clearcoat = 0;
+              if ('clearcoatRoughness' in material) material.clearcoatRoughness = 1;
+              if ('specularIntensity' in material) material.specularIntensity = 0;
+              if ('shininess' in material) material.shininess = 0;
+              if (material.specular?.setRGB) material.specular.setRGB(0, 0, 0);
+              material.color?.multiplyScalar(1.1);
+            });
           });
           scene.add(model);
 
