@@ -33,22 +33,15 @@ export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const featuredProjects = projects.filter((project) => project.href).slice(0, 6);
   const [featuredIndex, setFeaturedIndex] = useState(0);
-  const [rotationMode, setRotationMode] = useState<'auto' | 'paused' | 'playing'>('auto');
-  const [featureHovered, setFeatureHovered] = useState(false);
-  const [featureFocused, setFeatureFocused] = useState(false);
   const featuredProject = featuredProjects[featuredIndex];
 
   useEffect(() => {
-    if (rotationMode === 'paused' || (rotationMode === 'auto' && (featureHovered || featureFocused)) || (rotationMode !== 'playing' && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => {
       setFeaturedIndex((current) => (current + 1) % featuredProjects.length);
     }, 7000);
     return () => window.clearInterval(timer);
-  }, [featuredProjects.length, featureFocused, featureHovered, rotationMode]);
-
-  function changeFeaturedProject(direction: -1 | 1) {
-    setFeaturedIndex((current) => (current + direction + featuredProjects.length) % featuredProjects.length);
-  }
+  }, [featuredProjects.length]);
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd).replace(/</g, '\\u003c') }} />
 <a className="skip-link" href="#main-content">{zh ? '跳至内容' : hi ? 'मुख्य सामग्री पर जाएँ' : 'Skip to content'}</a>
@@ -71,18 +64,12 @@ export default function HomePage() {
         <h1>{zh ? <>让想法<br /><em>鲜活起来。</em></> : hi ? <>विचारों को<br />जीवंत <em>बनाता हूँ।</em></> : <>Making ideas<br />feel <em>alive.</em></>}</h1>
         <p className="hero-intro">{zh ? <>你好，我是 <strong>Murtaza (MK) Kanorwala</strong>。我用 Unity 制作互动式 2D/3D 游戏，也珍藏着启发我的事物。</> : hi ? <>नमस्ते, मैं <strong>Murtaza (MK) Kanorwala</strong> हूँ। मैं Unity में इंटरैक्टिव 2D/3D गेम बनाता हूँ और प्रेरणा देने वाली चीज़ों का निजी संग्रह रखता हूँ।</> : <>Hi, I’m <strong>Murtaza (MK) Kanorwala</strong>. I build interactive 2D/3D games in Unity and keep a personal archive of the things that inspire me.</>}</p>
         <div className="hero-actions"><a className="button button-lime" href="#work">{zh ? '查看我的作品' : hi ? 'मेरा काम देखें' : 'Explore my work'} <span>↘</span></a><a className="text-link" href="#about">{zh ? '关于我' : hi ? 'मेरे बारे में' : 'A little about me'} <span>↓</span></a></div>
-        <div className="hero-featured-wrap" onMouseEnter={() => setFeatureHovered(true)} onMouseLeave={() => setFeatureHovered(false)} onFocusCapture={() => setFeatureFocused(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFeatureFocused(false); }}>
+        <div className="hero-featured-wrap">
           <a className="hero-project-preview" href={featuredProject.href} target="_blank" rel="noreferrer" aria-label={`${featuredProject.title}: ${featuredProject.summary}. Opens in a new tab.`}>
             <span className="hero-project-image" key={featuredProject.image}><LoadingImage src={featuredProject.image} alt="" loading="eager" /></span>
             <span className="hero-project-copy"><small>{zh ? '精选项目' : hi ? 'चुना हुआ प्रोजेक्ट' : 'FEATURED PROJECT'}</small><strong>{featuredProject.title}</strong><span>{featuredProject.summary}</span></span>
             <span className="hero-project-arrow" aria-hidden="true">↗</span>
           </a>
-          <div className="hero-featured-controls" role="group" aria-label={zh ? '精选项目控制' : hi ? 'चुने हुए प्रोजेक्ट नियंत्रण' : 'Featured project controls'}>
-            <button type="button" onClick={() => changeFeaturedProject(-1)} aria-label={zh ? '上一个项目' : hi ? 'पिछला प्रोजेक्ट' : 'Previous featured project'}>←</button>
-            <span aria-hidden="true">{String(featuredIndex + 1).padStart(2, '0')} / {String(featuredProjects.length).padStart(2, '0')}</span>
-            <button type="button" onClick={() => changeFeaturedProject(1)} aria-label={zh ? '下一个项目' : hi ? 'अगला प्रोजेक्ट' : 'Next featured project'}>→</button>
-            <button className="rotation-toggle" type="button" onClick={() => setRotationMode((mode) => mode === 'playing' ? 'paused' : 'playing')} aria-label={rotationMode === 'paused' ? (zh ? '自动轮播' : hi ? 'अपने आप बदलना शुरू करें' : 'Resume automatic rotation') : (zh ? '暂停自动轮播' : hi ? 'अपने आप बदलना रोकें' : 'Pause automatic rotation')}>{rotationMode === 'paused' ? '▶' : 'Ⅱ'}</button>
-          </div>
         </div>
         <div className="hero-meta"><span>{zh ? '位于印度' : hi ? 'भारत में स्थित' : 'BASED IN INDIA'}</span><span>{zh ? '独立创作者' : hi ? 'स्वतंत्र निर्माता' : 'INDEPENDENT CREATOR'}</span></div>
       </div>
