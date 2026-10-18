@@ -32,7 +32,7 @@ export default function WorkGrid() {
           <div className="project-info"><div><h3>{project.title}</h3><p>{project.summary}</p></div><span className="project-year">{project.label}</span></div>
         </>;
         return project.href
-          ? <a className={`project-card${project.featured ? ' project-featured' : ''}`} data-kind={project.kind} href={project.href} key={project.title} target="_blank" rel="noreferrer">{content}</a>
+          ? <a className={`project-card${project.featured ? ' project-featured' : ''}`} data-kind={project.kind} href={project.href} key={project.title} target="_blank" rel="noreferrer" aria-label={`${project.title}. ${project.summary}. Opens in a new tab.`}>{content}</a>
           : <article className="project-card" data-kind={project.kind} key={project.title}>{content}</article>;
       })}
     </div>

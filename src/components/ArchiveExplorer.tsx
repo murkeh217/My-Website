@@ -24,10 +24,14 @@ export default function ArchiveExplorer({ initialPage, initialCollection }: Arch
   const [selectedPath, setSelectedPath] = useState(() => initialPathFor(initialPage, initialCollection));
   const [activeCollection, setActiveCollection] = useState(initialCollection ?? '');
   const selected = allPages.find((page) => page.path === selectedPath);
-  const visibleCollections = useMemo(() => archiveCollections.map((collection) => ({
-    ...collection,
-    pages: collection.pages.filter((page) => `${page.title} ${page.path}`.toLowerCase().includes(search.trim().toLowerCase())),
-  })).filter((collection) => collection.pages.length > 0), [search]);
+  const visibleCollections = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return archiveCollections.map((collection) => ({
+      ...collection,
+      pages: collection.pages.filter((page) => !query || collection.label.toLowerCase().includes(query) || `${page.title} ${page.path}`.toLowerCase().includes(query)),
+    })).filter((collection) => collection.pages.length > 0);
+  }, [search]);
+  const visiblePageCount = visibleCollections.reduce((count, collection) => count + collection.pages.length, 0);
 
   function choosePage(path: string) {
     setSelectedPath(path);
@@ -62,7 +66,8 @@ export default function ArchiveExplorer({ initialPage, initialCollection }: Arch
     <aside className="library-sidebar" aria-label={zh ? '档案导航' : hi ? 'संग्रह नेविगेशन' : 'Archive navigation'}>
       <div className="sidebar-heading"><p className="eyebrow">{zh ? '个人收藏' : hi ? 'व्यक्तिगत संग्रह' : 'PERSONAL COLLECTIONS'}</p><h1>{zh ? <>我的<br /><em>点滴。</em></> : hi ? <>मेरी सारी<br /><em>रचनाएँ।</em></> : <>All the things<br /><em>I make.</em></>}</h1><p className="sidebar-intro">{zh ? '个人页面、实验、兴趣与进行中的项目。' : hi ? 'निजी पन्ने, प्रयोग, रुचियाँ और जारी प्रोजेक्ट।' : 'Personal pages, experiments, interests and works in progress.'}</p></div>
       <label className="search-label" htmlFor="page-search">{zh ? '查找页面' : hi ? 'पन्ना खोजें' : 'FIND A PAGE'}</label>
-      <div className="search-wrap"><span aria-hidden="true">⌕</span><input id="page-search" type="search" placeholder={zh ? '搜索档案' : hi ? 'संग्रह में खोजें' : 'Search the archive'} autoComplete="off" value={search} onChange={(event) => setSearch(event.target.value)} /><kbd>/</kbd></div>
+      <div className="search-wrap"><span aria-hidden="true">⌕</span><input id="page-search" type="search" placeholder={zh ? '搜索档案' : hi ? 'संग्रह में खोजें' : 'Search the archive'} autoComplete="off" value={search} onChange={(event) => setSearch(event.target.value)} /><kbd aria-label={zh ? '快捷键' : hi ? 'कीबोर्ड शॉर्टकट' : 'Keyboard shortcut'}>/</kbd>{search && <button className="search-clear" type="button" aria-label={zh ? '清除搜索' : hi ? 'खोज साफ़ करें' : 'Clear search'} onClick={() => setSearch('')}>×</button>}</div>
+      <p className="search-results" aria-live="polite">{search ? (zh ? `找到 ${visiblePageCount} 个页面` : hi ? `${visiblePageCount} पन्ने मिले` : `${visiblePageCount} ${visiblePageCount === 1 ? 'page' : 'pages'} found`) : (zh ? `${archivePageCount} 个页面` : hi ? `${archivePageCount} पन्ने` : `${archivePageCount} pages`)}</p>
       <nav className="collection-nav" aria-label={zh ? '收藏分类' : hi ? 'संग्रह' : 'Collections'}>
         {visibleCollections.map((collection) => <details className="collection-group" key={collection.id} open>
           <summary className="group-title"><span>{collectionInLocale(collection.label)}</span><span className="group-count">{String(collection.pages.length).padStart(2, '0')}</span></summary>

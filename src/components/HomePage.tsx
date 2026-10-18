@@ -1,8 +1,10 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import WorkGrid from '@/src/components/WorkGrid';
 import { archivePageCount } from '@/src/data/archive';
 import LanguageSwitcher from '@/src/components/LanguageSwitcher';
+import { projects } from '@/src/data/projects';
 import { useLanguage } from './LanguageProvider';
 import RevealObserver from '../../app/RevealObserver';
 import HeroCharacter from './HeroCharacter.jsx';
@@ -28,21 +30,60 @@ export default function HomePage() {
   const { locale } = useLanguage();
   const hi = locale === 'hi';
   const zh = locale === 'zh-CN';
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const featuredProjects = projects.filter((project) => project.href).slice(0, 6);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [rotationMode, setRotationMode] = useState<'auto' | 'paused' | 'playing'>('auto');
+  const [featureHovered, setFeatureHovered] = useState(false);
+  const [featureFocused, setFeatureFocused] = useState(false);
+  const featuredProject = featuredProjects[featuredIndex];
+
+  useEffect(() => {
+    if (rotationMode === 'paused' || (rotationMode === 'auto' && (featureHovered || featureFocused)) || (rotationMode !== 'playing' && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    const timer = window.setInterval(() => {
+      setFeaturedIndex((current) => (current + 1) % featuredProjects.length);
+    }, 7000);
+    return () => window.clearInterval(timer);
+  }, [featuredProjects.length, featureFocused, featureHovered, rotationMode]);
+
+  function changeFeaturedProject(direction: -1 | 1) {
+    setFeaturedIndex((current) => (current + direction + featuredProjects.length) % featuredProjects.length);
+  }
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd).replace(/</g, '\\u003c') }} />
+<a className="skip-link" href="#main-content">{zh ? '跳至内容' : hi ? 'मुख्य सामग्री पर जाएँ' : 'Skip to content'}</a>
 <header className="topbar">
     <a className="wordmark" href="#home" aria-label="MK home"><span>PORTFOLIO<span className="wordmark-year"> / 2026</span></span></a>
     <nav className="desktop-nav" aria-label={zh ? '主导航' : hi ? 'मुख्य नेविगेशन' : 'Main navigation'}><a href="#work">{zh ? '作品' : hi ? 'काम' : 'Work'}</a><a href="#about">{zh ? '关于' : hi ? 'परिचय' : 'About'}</a><a href="#personal">{zh ? '个人' : hi ? 'व्यक्तिगत' : 'Personal'}</a><a href="/library">{zh ? '档案' : hi ? 'संग्रह' : 'Archive'}</a><a href="#contact">{zh ? '联系' : hi ? 'संपर्क' : 'Contact'}</a></nav>
+    <div className="mobile-menu-wrap">
+      <button className="mobile-menu-toggle" type="button" aria-expanded={mobileMenuOpen} aria-controls="mobile-navigation" onClick={() => setMobileMenuOpen((open) => !open)}>{mobileMenuOpen ? (zh ? '关闭' : hi ? 'बंद करें' : 'Close') : (zh ? '菜单' : hi ? 'मेन्यू' : 'Menu')} <span aria-hidden="true">{mobileMenuOpen ? '−' : '+'}</span></button>
+      {mobileMenuOpen && <nav className="mobile-nav" id="mobile-navigation" aria-label={zh ? '主导航' : hi ? 'मुख्य नेविगेशन' : 'Main navigation'}>{[
+        ['#work', zh ? '作品' : hi ? 'काम' : 'Work'], ['#about', zh ? '关于' : hi ? 'परिचय' : 'About'], ['#personal', zh ? '个人' : hi ? 'व्यक्तिगत' : 'Personal'], ['/library', zh ? '档案' : hi ? 'संग्रह' : 'Archive'], ['#contact', zh ? '联系' : hi ? 'संपर्क' : 'Contact'],
+      ].map(([href, label]) => <a key={href} href={href} onClick={() => setMobileMenuOpen(false)}>{label}</a>)}</nav>}
+    </div>
     <div className="topbar-tools"><a className="availability" href="#contact"><span></span> {zh ? '欢迎合作机会' : hi ? 'अवसरों के लिए उपलब्ध' : 'Open to opportunities'}</a><LanguageSwitcher /></div>
   </header>
 
-  <main>
+  <main id="main-content" tabIndex={-1}>
     <section className="hero wrap" id="home">
       <div className="hero-copy">
         <p className="eyebrow"><span className="eyebrow-line"></span> {zh ? 'Unity 开发者 · 创作者' : hi ? 'यूनिटी डेवलपर · निर्माता' : 'UNITY DEVELOPER · MAKER'}</p>
         <h1>{zh ? <>让想法<br /><em>鲜活起来。</em></> : hi ? <>विचारों को<br />जीवंत <em>बनाता हूँ।</em></> : <>Making ideas<br />feel <em>alive.</em></>}</h1>
         <p className="hero-intro">{zh ? <>你好，我是 <strong>Murtaza (MK) Kanorwala</strong>。我用 Unity 制作互动式 2D/3D 游戏，也珍藏着启发我的事物。</> : hi ? <>नमस्ते, मैं <strong>Murtaza (MK) Kanorwala</strong> हूँ। मैं Unity में इंटरैक्टिव 2D/3D गेम बनाता हूँ और प्रेरणा देने वाली चीज़ों का निजी संग्रह रखता हूँ।</> : <>Hi, I’m <strong>Murtaza (MK) Kanorwala</strong>. I build interactive 2D/3D games in Unity and keep a personal archive of the things that inspire me.</>}</p>
         <div className="hero-actions"><a className="button button-lime" href="#work">{zh ? '查看我的作品' : hi ? 'मेरा काम देखें' : 'Explore my work'} <span>↘</span></a><a className="text-link" href="#about">{zh ? '关于我' : hi ? 'मेरे बारे में' : 'A little about me'} <span>↓</span></a></div>
+        <div className="hero-featured-wrap" onMouseEnter={() => setFeatureHovered(true)} onMouseLeave={() => setFeatureHovered(false)} onFocusCapture={() => setFeatureFocused(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFeatureFocused(false); }}>
+          <a className="hero-project-preview" href={featuredProject.href} target="_blank" rel="noreferrer" aria-label={`${featuredProject.title}: ${featuredProject.summary}. Opens in a new tab.`}>
+            <span className="hero-project-image" key={featuredProject.image}><LoadingImage src={featuredProject.image} alt="" loading="eager" /></span>
+            <span className="hero-project-copy"><small>{zh ? '精选项目' : hi ? 'चुना हुआ प्रोजेक्ट' : 'FEATURED PROJECT'}</small><strong>{featuredProject.title}</strong><span>{featuredProject.summary}</span></span>
+            <span className="hero-project-arrow" aria-hidden="true">↗</span>
+          </a>
+          <div className="hero-featured-controls" role="group" aria-label={zh ? '精选项目控制' : hi ? 'चुने हुए प्रोजेक्ट नियंत्रण' : 'Featured project controls'}>
+            <button type="button" onClick={() => changeFeaturedProject(-1)} aria-label={zh ? '上一个项目' : hi ? 'पिछला प्रोजेक्ट' : 'Previous featured project'}>←</button>
+            <span aria-hidden="true">{String(featuredIndex + 1).padStart(2, '0')} / {String(featuredProjects.length).padStart(2, '0')}</span>
+            <button type="button" onClick={() => changeFeaturedProject(1)} aria-label={zh ? '下一个项目' : hi ? 'अगला प्रोजेक्ट' : 'Next featured project'}>→</button>
+            <button className="rotation-toggle" type="button" onClick={() => setRotationMode((mode) => mode === 'playing' ? 'paused' : 'playing')} aria-label={rotationMode === 'paused' ? (zh ? '自动轮播' : hi ? 'अपने आप बदलना शुरू करें' : 'Resume automatic rotation') : (zh ? '暂停自动轮播' : hi ? 'अपने आप बदलना रोकें' : 'Pause automatic rotation')}>{rotationMode === 'paused' ? '▶' : 'Ⅱ'}</button>
+          </div>
+        </div>
         <div className="hero-meta"><span>{zh ? '位于印度' : hi ? 'भारत में स्थित' : 'BASED IN INDIA'}</span><span>{zh ? '独立创作者' : hi ? 'स्वतंत्र निर्माता' : 'INDEPENDENT CREATOR'}</span></div>
       </div>
       <div className="hero-monogram" aria-label="MK monogram" role="img"><span>MK</span><HeroCharacter /></div>
@@ -69,6 +110,8 @@ export default function HomePage() {
     </section>
 
     <section className="about-band" id="about"><div className="wrap about-layout"><div className="about-label"><p className="eyebrow">02 — {zh ? '作品背后的创作者' : hi ? 'काम के पीछे का व्यक्ति' : 'THE PERSON BEHIND THE WORK'}</p><span className="about-index">{zh ? '以好奇心创造' : hi ? 'जिज्ञासा से निर्मित' : 'BUILT WITH CURIOSITY'} <b>✳</b></span></div><div className="about-copy"><h2>{zh ? <>艺术让我表达。<br />代码赋予我<em>结构。</em></> : hi ? <>कला ने मुझे अभिव्यक्ति दी।<br />कोड ने दी <em>संरचना।</em></> : <>Art gave me expression.<br />Code gave me <em>structure.</em></>}</h2><p>{zh ? '我以自由职业者身份使用 Unity3D 制作互动式 2D/3D 游戏，专注于玩法系统、物理机制和移动端性能。' : hi ? 'मैं फ्रीलांसर के रूप में Unity3D में इंटरैक्टिव 2D/3D गेम बनाता हूँ। मेरा ध्यान गेमप्ले सिस्टम, भौतिकी और मोबाइल प्रदर्शन पर है।' : 'I’ve been working as a freelancer, building interactive 2D/3D games using Unity3D with a focus on gameplay systems, physics mechanics, and mobile performance.'}</p><p>{zh ? <>我希望成为全职 <strong>Unity 开发者</strong>，加入 AAA 游戏工作室，打造有意义、高品质的游戏体验。</> : hi ? <>अब मैं पूर्णकालिक <strong>Unity Developer</strong> की भूमिका में जाना चाहता हूँ। मेरा लक्ष्य AAA गेम स्टूडियो में शामिल होकर सार्थक और उच्च गुणवत्ता वाले गेम बनाना है।</> : <>Now, I’m looking to transition into a full-time role as a <strong>Unity Developer</strong>. I’m working toward joining a AAA game studio and building meaningful, high-quality game experiences.</>}</p></div></div></section>
+
+    <section className="personality-note wrap" aria-labelledby="personality-note-title"><div><p className="eyebrow">{zh ? '多认识我一点' : hi ? 'मेरे बारे में थोड़ा और' : 'A LITTLE MORE ABOUT ME'}</p><h2 id="personality-note-title">{zh ? <>安静地观察，<em>始终好奇。</em></> : hi ? <>शांत स्वभाव,<br /><em>जिज्ञासु मन।</em></> : <>Quiet at first.<br /><em>Curious always.</em></>}</h2></div><p>{zh ? '我刚开始时或许有些安静，但总会认真倾听、深入思考并留意细节。善意与可靠对我很重要，我也把这份用心带进创作里。' : hi ? 'मैं शुरुआत में थोड़ा शांत रह सकता हूँ, लेकिन हमेशा ध्यान से सुनता, गहराई से सोचता और छोटी बातों पर गौर करता हूँ। मेरे लिए दयालु और भरोसेमंद होना मायने रखता है—और यही सोच मैं अपने काम में भी लाता हूँ।' : 'I can be a little quiet at first, but I’m always listening, thinking deeply, and noticing the details. I care about being kind and dependable, and bring that thoughtfulness into the things I make.'}</p></section>
 
     <section className="section wrap" id="journey"><div className="section-head"><div><p className="eyebrow">03 — {zh ? '经历与教育' : hi ? 'अनुभव और शिक्षा' : 'EXPERIENCE & EDUCATION'}</p><h2>{zh ? <>我的<em>经历。</em></> : hi ? <>मेरी <em>कहानी।</em></> : <>A little <em>backstory.</em></>}</h2></div><p className="section-note">{zh ? '从测试游戏到开发游戏：一段由好奇心与匠心塑造的旅程。' : hi ? 'गेम टेस्ट करने से लेकर बनाने तक: जिज्ञासा और कौशल से बनी राह।' : 'From testing games to building them: a path shaped by curiosity and craft.'}</p></div>
       <div className="timeline"><article><span className="timeline-year">FREELANCE</span><div><h3>Freelance & Various Roles</h3><p className="timeline-role">Unity Developer</p><p>Built interactive 2D/3D games in Unity3D with a focus on gameplay systems, physics mechanics, and mobile optimization.</p></div><span className="timeline-mark">01</span></article><article><span className="timeline-year">2021</span><div><h3>Outscal</h3><p className="timeline-role">FullStack Game Development</p><p>Completed an intensive game development bootcamp focusing on Unity, C#, game architecture, and version control. Built and published multiple game prototypes, and participated in peer code reviews, design challenges, and industry-led mentorship sessions.</p></div><span className="timeline-mark">02</span></article><article><span className="timeline-year">EDUCATION</span><div><h3>Thakur College of Science & Commerce</h3><p className="timeline-role">B.Sc. Computer Science</p><p>Studied data structures, algorithms, OOP, and databases. Built a patient prescription management system for a private clinic using ASP.NET.</p></div><span className="timeline-mark">03</span></article></div>
