@@ -129,3 +129,8 @@
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
 }
+
+html[lang="hi"]{--sans:'Noto Sans Devanagari','DM Sans',sans-serif;--display:'Noto Sans Devanagari','Manrope',sans-serif;word-spacing:.1em}
+html[lang="hi"] :is(h1,h2,h3){letter-spacing:normal}
+html[lang="zh-CN"]{--sans:'Noto Sans SC','DM Sans',sans-serif;--display:'Noto Sans SC','Manrope',sans-serif}
+html[lang="zh-CN"] :is(h1,h2,h3){letter-spacing:.02em}
